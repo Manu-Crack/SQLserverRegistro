@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<div class="row">
+  <div class="col-md-5">
+
+    <!-- Mensajes flash -->
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <!-- Formulario para agregar contacto -->
+    <div class="card card-body">
+      <form action="{{ url_for('contacts.add_contact') }}" method="POST">
+        <div class="form-group">
+          <input type="text" class="form-control" name="nombre" placeholder="Nombre completo" required>
+        </div>
+        <div class="form-group">
+          <input type="email" class="form-control" name="correo" placeholder="Correo electrónico" required>
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" name="telefono" placeholder="Teléfono" required>
+        </div>
+        <button class="btn btn-primary btn-block">Guardar</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Tabla para mostrar contactos -->
+  <div class="col-md-7">
+    <div class="row">
+      {% for contact in contacts %}
+      <div class="col-md-6 mb-4">
+        <div class="card shadow-sm h-100">
+          <div class="card-body">
+            <h5 class="card-title">{{ contact[1] }}</h5>
+            <p class="card-text mb-1"><strong>Teléfono:</strong> {{ contact[2] }}</p>
+            <p class="card-text"><strong>Correo:</strong> {{ contact[3] }}</p>
+          </div>
+          <div class="card-footer bg-transparent d-flex justify-content-between">
+            <a href="{{ url_for('contacts.get_contact', id=contact[0]) }}" class="btn btn-outline-secondary btn-sm">Editar</a>
+            <a href="{{ url_for('contacts.delete_contact', id=contact[0]) }}" class="btn btn-outline-danger btn-sm">Eliminar</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}
