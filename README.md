@@ -22,4 +22,4 @@ comandos usados:
   - correo NVARCHAR(150) NULL
 - );
 
-![Image_Alt]()
+![Image_Alt](https://github.com/Manu-Crack/SQLserverRegistro/blob/e19190f592a0da1e0e567b89c88af5c0dc1717bc/2025-07-29%2021_53_33-SQLQuery1.sql%20-%20DESKTOP-7S23QS1_SQLEXPRESS2017.flaskContacto%20(sa%20(57))_%20-%20Micros.png)
