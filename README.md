@@ -11,10 +11,11 @@ Herramientas Usadas:
 
 Creacion de la Base de datos:
 comandos usados:
-  CREATE DATABASE flaskContacto;
-  GO
-  USE flaskContacto;
-  CREATE TABLE Usuario (
+
+- CREATE DATABASE flaskContacto;
+- GO
+- USE flaskContacto;
+- CREATE TABLE Usuario (
     ID INT PRIMARY KEY IDENTITY(1,1),
     nombre VARCHAR(100) NOT NULL,
     telefono VARCHAR(30),
