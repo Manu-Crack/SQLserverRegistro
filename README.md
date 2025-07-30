@@ -16,10 +16,10 @@ comandos usados:
 - GO
 - USE flaskContacto;
 - CREATE TABLE Usuario (
-    ID INT PRIMARY KEY IDENTITY(1,1),
-    nombre VARCHAR(100) NOT NULL,
-    telefono VARCHAR(30),
-    correo VARCHAR(255) UNIQUE
-  );
+  - ID INT PRIMARY KEY IDENTITY(1,1),
+  - nombre VARCHAR(100) NOT NULL,
+  - telefono VARCHAR(30),
+  - correo VARCHAR(255) UNIQUE
+- );
 
 ![Image_Alt](https://github.com/Manu-Crack/SQLserverRegistro/blob/2d0bcf9acfa5faef3d2e2ce8737978eb3a05209f/image.png)
