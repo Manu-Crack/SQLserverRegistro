@@ -17,9 +17,9 @@ comandos usados:
 - USE flaskContacto;
 - CREATE TABLE Usuario (
   - ID INT PRIMARY KEY IDENTITY(1,1),
-  - nombre VARCHAR(100) NOT NULL,
-  - telefono VARCHAR(30),
-  - correo VARCHAR(255) UNIQUE
+  - nombre NVARCHAR(100) NOT NULL,
+  - telefono NVARCHAR(20) NULL,
+  - correo NVARCHAR(150) NULL
 - );
 
-![Image_Alt](https://github.com/Manu-Crack/SQLserverRegistro/blob/2d0bcf9acfa5faef3d2e2ce8737978eb3a05209f/image.png)
+![Image_Alt]()
