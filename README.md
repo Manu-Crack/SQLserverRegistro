@@ -4,7 +4,7 @@ El sistema permite editar o eliminar los contactos creados, tambien sera de form
 le asigne.
 Incluye datos como: nombre, telefono y correo electronico
 Herramientas Usadas:
-- python
+- python (flask)
 - SQLserver
 
 ![Image_Alt](https://github.com/Manu-Crack/SQLserverRegistro/blob/071ef7d75aad0d27fdb88eebafb6b2413ce92d74/image.png)
