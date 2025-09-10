@@ -7,7 +7,7 @@ Herramientas Usadas:
 - python (flask)
 - SQLserver
 
-![Image_Alt](https://github.com/Manu-Crack/SQLserverRegistro/blob/071ef7d75aad0d27fdb88eebafb6b2413ce92d74/image.png)
+![Image_Alt](Imagen-Pagina.png)
 
 Creacion de la Base de datos,
 comandos usados:
