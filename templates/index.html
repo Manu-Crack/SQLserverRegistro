@@ -1,61 +1,205 @@
 {% extends "layout.html" %}
 {% block body %}
 
-<div class="row">
-  <div class="col-md-5">
-
-    <!-- Mensajes flash -->
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        {% for message in messages %}
-          <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ message }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
-
-    <!-- Formulario para agregar contacto -->
-    <div class="card card-body">
-      <form action="{{ url_for('contacts.add_contact') }}" method="POST">
-        <div class="form-group">
-          <input type="text" class="form-control" name="nombre" placeholder="Nombre completo" required>
-        </div>
-        <div class="form-group">
-          <input type="email" class="form-control" name="correo" placeholder="Correo electrónico" required>
-        </div>
-        <div class="form-group">
-          <input type="text" class="form-control" name="telefono" placeholder="Teléfono" required>
-        </div>
-        <button class="btn btn-primary btn-block">Guardar</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- Tabla para mostrar contactos -->
-  <div class="col-md-7">
-    <div class="row">
-      {% for contact in contacts %}
-      <div class="col-md-6 mb-4">
-        <div class="card shadow-sm h-100">
-          <div class="card-body">
-            <h5 class="card-title">{{ contact[1] }}</h5>
-            <p class="card-text mb-1"><strong>Teléfono:</strong> {{ contact[2] }}</p>
-            <p class="card-text"><strong>Correo:</strong> {{ contact[3] }}</p>
-          </div>
-          <div class="card-footer bg-transparent d-flex justify-content-between">
-            <a href="{{ url_for('contacts.get_contact', id=contact[0]) }}" class="btn btn-outline-secondary btn-sm">Editar</a>
-            <a href="{{ url_for('contacts.delete_contact', id=contact[0]) }}" class="btn btn-outline-danger btn-sm">Eliminar</a>
-          </div>
-        </div>
+<!-- Mensajes flash -->
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-success alert-dismissible fade show fade-in-up" role="alert">
+        <i class="fas fa-check-circle me-2"></i>
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
-      {% endfor %}
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<!-- Header de la página -->
+<div class="row mb-5">
+  <div class="col-12">
+    <div class="text-center">
+      <h1 class="display-4 fw-bold text-gradient mb-3">
+        <i class="fas fa-address-book me-3"></i>
+        Gestión de Contactos
+      </h1>
+      <p class="lead text-muted">Administra tu lista de contactos de manera eficiente y profesional</p>
+    </div>
+  </div>
+</div>
+
+<div class="row g-4">
+  <!-- Formulario para agregar contacto -->
+  <div class="col-lg-4">
+    <div class="card shadow-custom h-100">
+      <div class="card-header">
+        <h5 class="card-title mb-0">
+          <i class="fas fa-user-plus me-2"></i>
+          Nuevo Contacto
+        </h5>
+      </div>
+      <div class="card-body">
+        <form action="{{ url_for('contacts.add_contact') }}" method="POST" class="needs-validation" novalidate>
+          <div class="mb-3">
+            <label for="nombre" class="form-label">
+              <i class="fas fa-user me-1"></i>Nombre Completo
+            </label>
+            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingrese el nombre completo" required>
+            <div class="invalid-feedback">
+              Por favor ingrese un nombre válido.
+            </div>
+          </div>
+          
+          <div class="mb-3">
+            <label for="correo" class="form-label">
+              <i class="fas fa-envelope me-1"></i>Correo Electrónico
+            </label>
+            <input type="email" class="form-control" id="correo" name="correo" placeholder="ejemplo@correo.com" required>
+            <div class="invalid-feedback">
+              Por favor ingrese un correo electrónico válido.
+            </div>
+          </div>
+          
+          <div class="mb-4">
+            <label for="telefono" class="form-label">
+              <i class="fas fa-phone me-1"></i>Teléfono
+            </label>
+            <input type="tel" class="form-control" id="telefono" name="telefono" placeholder="+1 (555) 123-4567" required>
+            <div class="invalid-feedback">
+              Por favor ingrese un número de teléfono válido.
+            </div>
+          </div>
+          
+          <button type="submit" class="btn btn-primary w-100">
+            <i class="fas fa-save me-2"></i>
+            Guardar Contacto
+          </button>
+        </form>
+      </div>
     </div>
   </div>
 
+  <!-- Lista de contactos -->
+  <div class="col-lg-8">
+    <div class="card shadow-custom">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="card-title mb-0">
+          <i class="fas fa-list me-2"></i>
+          Lista de Contactos
+        </h5>
+        <span class="badge bg-primary fs-6">{{ contacts|length }} contacto{{ 's' if contacts|length != 1 else '' }}</span>
+      </div>
+      <div class="card-body">
+        {% if contacts %}
+          <div class="row g-3">
+            {% for contact in contacts %}
+            <div class="col-md-6 col-xl-4">
+              <div class="card contact-card h-100">
+                <div class="card-body">
+                  <div class="d-flex align-items-start mb-3">
+                    <div class="avatar-circle me-3">
+                      <i class="fas fa-user"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                      <h6 class="card-title fw-semibold mb-1">{{ contact[1] }}</h6>
+                      <small class="text-muted">Contacto #{{ contact[0] }}</small>
+                    </div>
+                  </div>
+                  
+                  <div class="contact-info">
+                    <div class="d-flex align-items-center mb-2">
+                      <i class="fas fa-phone"></i>
+                      <span class="ms-2">{{ contact[2] }}</span>
+                    </div>
+                    <div class="d-flex align-items-center">
+                      <i class="fas fa-envelope"></i>
+                      <span class="ms-2 text-truncate">{{ contact[3] }}</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="card-footer bg-transparent">
+                  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <a href="{{ url_for('contacts.get_contact', id=contact[0]) }}" 
+                       class="btn btn-outline-primary btn-sm">
+                      <i class="fas fa-edit me-1"></i>Editar
+                    </a>
+                    <a href="{{ url_for('contacts.delete_contact', id=contact[0]) }}" 
+                       class="btn btn-outline-danger btn-sm"
+                       onclick="return confirm('¿Está seguro de que desea eliminar este contacto?')">
+                      <i class="fas fa-trash me-1"></i>Eliminar
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="text-center py-5">
+            <div class="mb-4">
+              <i class="fas fa-address-book fa-4x text-muted"></i>
+            </div>
+            <h5 class="text-muted mb-3">No hay contactos registrados</h5>
+            <p class="text-muted">Comience agregando su primer contacto usando el formulario.</p>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
 </div>
+
+<!-- Estilos adicionales para esta página -->
+<style>
+.avatar-circle {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, var(--primary-color), #0056b3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.1rem;
+}
+
+.needs-validation .form-control:invalid {
+  border-color: var(--danger-color);
+}
+
+.needs-validation .form-control:valid {
+  border-color: var(--success-color);
+}
+
+.card-title {
+  color: var(--dark-color);
+}
+
+.contact-card .card-body {
+  padding: 1.25rem;
+}
+
+.contact-card .card-footer {
+  padding: 0.75rem 1.25rem;
+}
+</style>
+
+<script>
+// Validación del formulario
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    var forms = document.getElementsByClassName('needs-validation');
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+</script>
 
 {% endblock %}

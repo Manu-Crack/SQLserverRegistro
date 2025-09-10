@@ -1,27 +1,188 @@
 {% extends "layout.html" %}
 {% block body %}
 
-<div class="row">
-  <div class="col-md-4 offset-md-4">
-    <div class="card card-body">
-      <form action="/update/{{ contact[0] }}" method="POST">
-        <div class="form-group">
-          <input type="text" name="nombre" value="{{ contact[1] }}" class="form-control" placeholder="Nombre completo" required>
-        </div>
-        <div class="form-group">
-          <input type="text" name="telefono" value="{{ contact[2] }}" class="form-control" placeholder="Teléfono" required>
-        </div>
-        <div class="form-group">
-          <input type="email" name="correo" value="{{ contact[3] }}" class="form-control" placeholder="Correo electrónico" required>
-        </div>
-        <div class="form-group">
-          <button type="submit" class="btn btn-primary btn-block">
-            Actualizar
-          </button>
-        </div>
-      </form>
+<!-- Header de la página -->
+<div class="row mb-4">
+  <div class="col-12">
+    <div class="text-center">
+      <h1 class="display-5 fw-bold text-gradient mb-3">
+        <i class="fas fa-user-edit me-3"></i>
+        Editar Contacto
+      </h1>
+      <p class="lead text-muted">Modifique la información del contacto seleccionado</p>
     </div>
   </div>
 </div>
+
+<!-- Formulario de edición -->
+<div class="row justify-content-center">
+  <div class="col-lg-6 col-md-8">
+    <div class="card shadow-custom">
+      <div class="card-header">
+        <h5 class="card-title mb-0">
+          <i class="fas fa-edit me-2"></i>
+          Información del Contacto
+        </h5>
+      </div>
+      <div class="card-body">
+        <form action="/update/{{ contact[0] }}" method="POST" class="needs-validation" novalidate>
+          <div class="mb-4">
+            <label for="nombre" class="form-label">
+              <i class="fas fa-user me-1"></i>Nombre Completo
+            </label>
+            <input type="text" 
+                   class="form-control" 
+                   id="nombre" 
+                   name="nombre" 
+                   value="{{ contact[1] }}" 
+                   placeholder="Ingrese el nombre completo" 
+                   required>
+            <div class="invalid-feedback">
+              Por favor ingrese un nombre válido.
+            </div>
+          </div>
+          
+          <div class="mb-4">
+            <label for="telefono" class="form-label">
+              <i class="fas fa-phone me-1"></i>Teléfono
+            </label>
+            <input type="tel" 
+                   class="form-control" 
+                   id="telefono" 
+                   name="telefono" 
+                   value="{{ contact[2] }}" 
+                   placeholder="+1 (555) 123-4567" 
+                   required>
+            <div class="invalid-feedback">
+              Por favor ingrese un número de teléfono válido.
+            </div>
+          </div>
+          
+          <div class="mb-4">
+            <label for="correo" class="form-label">
+              <i class="fas fa-envelope me-1"></i>Correo Electrónico
+            </label>
+            <input type="email" 
+                   class="form-control" 
+                   id="correo" 
+                   name="correo" 
+                   value="{{ contact[3] }}" 
+                   placeholder="ejemplo@correo.com" 
+                   required>
+            <div class="invalid-feedback">
+              Por favor ingrese un correo electrónico válido.
+            </div>
+          </div>
+          
+          <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+            <a href="{{ url_for('contacts.index') }}" class="btn btn-outline-secondary">
+              <i class="fas fa-arrow-left me-2"></i>
+              Cancelar
+            </a>
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-save me-2"></i>
+              Actualizar Contacto
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    
+    <!-- Información adicional -->
+    <div class="card shadow-custom mt-4">
+      <div class="card-body">
+        <div class="row text-center">
+          <div class="col-md-4">
+            <div class="d-flex flex-column align-items-center">
+              <div class="avatar-circle mb-2">
+                <i class="fas fa-user"></i>
+              </div>
+              <h6 class="fw-semibold mb-1">ID del Contacto</h6>
+              <small class="text-muted">#{{ contact[0] }}</small>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="d-flex flex-column align-items-center">
+              <i class="fas fa-calendar-alt fa-2x text-primary mb-2"></i>
+              <h6 class="fw-semibold mb-1">Última Modificación</h6>
+              <small class="text-muted">Hoy</small>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="d-flex flex-column align-items-center">
+              <i class="fas fa-shield-alt fa-2x text-success mb-2"></i>
+              <h6 class="fw-semibold mb-1">Estado</h6>
+              <small class="text-muted">Activo</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Estilos adicionales para esta página -->
+<style>
+.avatar-circle {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, var(--primary-color), #0056b3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.2rem;
+}
+
+.needs-validation .form-control:invalid {
+  border-color: var(--danger-color);
+}
+
+.needs-validation .form-control:valid {
+  border-color: var(--success-color);
+}
+
+.card-title {
+  color: var(--dark-color);
+}
+
+@media (max-width: 768px) {
+  .d-grid.gap-2.d-md-flex {
+    flex-direction: column;
+  }
+  
+  .btn {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+}
+</style>
+
+<script>
+// Validación del formulario
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    var forms = document.getElementsByClassName('needs-validation');
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+
+// Confirmación antes de enviar
+document.querySelector('form').addEventListener('submit', function(e) {
+  if (!confirm('¿Está seguro de que desea actualizar este contacto?')) {
+    e.preventDefault();
+  }
+});
+</script>
 
 {% endblock %}
